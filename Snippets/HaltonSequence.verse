@@ -7,6 +7,10 @@ using { /UnrealEngine.com/Temporary/Diagnostics }
 <# 
 This device can be used to randomly generate points for the
 placement of objects within the scene.
+
+References:
+Art B. Owen, A randomized Halton algorithm in R: arXiv:1706.02808, 2017.
+Halton sequence: https://en.wikipedia.org/wiki/Halton_sequence
 #>
 HaltonSequenceDevice := class(creative_device):
 
@@ -39,8 +43,6 @@ HaltonSequenceDevice := class(creative_device):
 
                         if (set index = Floor(index / base)) {}
 
-                            
-                    
                     set result = (base + 1) * index - difference
                     
             sample: float = (result * 1.0) / (factor * 1.0)
