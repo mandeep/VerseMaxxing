@@ -9,7 +9,8 @@ This device can be used to randomly generate points for the
 placement of objects within the scene.
 
 References:
-Art B. Owen, A randomized Halton algorithm in R: arXiv:1706.02808, 2017.
+Halton, John H. "Algorithm 247: Radical-inverse quasi-random point sequence." Communications of the ACM 7.12 (1964): 701-702.
+Owen, Art B. "A randomized Halton algorithm in R." arXiv preprint arXiv:1706.02808 (2017).
 Halton sequence: https://en.wikipedia.org/wiki/Halton_sequence
 #>
 HaltonSequenceDevice := class(creative_device):
