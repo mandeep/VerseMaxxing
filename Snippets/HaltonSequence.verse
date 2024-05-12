@@ -73,7 +73,6 @@ HaltonSequenceDevice := class(creative_device):
 
         var generated_points: []vector3 = for (i := 0..n) do vector3{X := 0.0, Y := 0.0, Z := 0.0}
 
-
         for (i := 0..n):
             if (x_position := set x_points[i] = position.X + x_random_points[i] * area.X) {
                 if (set generated_points[i].X = x_position) {}
@@ -86,6 +85,7 @@ HaltonSequenceDevice := class(creative_device):
             if (set generated_points[i].Z = position.Z) {}
 
         if (all_axes?):
+            # generate random points for the coordinate plane using the next available prime
             z_random_points: []float = GenerateSequence(n, 5)
             var z_points: []float = for (i := 0..n) do 0.0
 
