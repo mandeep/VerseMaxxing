@@ -2,6 +2,7 @@ using { /Fortnite.com/Devices }
 using { /Verse.org/Simulation }
 using { /Verse.org/Verse }
 using { /UnrealEngine.com/Temporary/Diagnostics }
+using { /UnrealEngine.com/Temporary/SpatialMath }
 
 
 # This device can be used to randomly generate points for the
@@ -48,3 +49,48 @@ HaltonSequenceDevice := class(creative_device):
             if (set halton_sequence[i] = sample) {}
         
         halton_sequence
+
+    # Use the Halton Sequence generator to generate random points within a certain area at position
+    #
+    # n is the number of samples to generate
+    # area is the size of the area to generate points within. This can be 2D or 3D
+    # position is the position in world space to put the points
+    # all_axes determines whether the points are generated for 2D or 3D. Default is 2D
+    #
+    # Example:
+    # points: []vector3 = GeneratePoints(3, vector3{X := 3.0, Y := 3.0, Z := 3.0}, vector3{X := 100.0, Y := 50.0, Z := 300.0})
+    # Here, points is an array of vector3, however the points were generated in 2D. Thus, the Z position will be 300.0
+    # The output of the points array will be [vector3(101.5, 51.0, 300.0), vector3(100.75, 52.0, 300.0), vector3(102.25, 50.33, 300.00)]
+    #
+    GeneratePoints(n: int, area: vector3, position: vector3, ?all_axes: logic = false):[]vector3=
+        # generate random points for the xy plane using the first 2 primes as bases
+        x_random_points: []float = GenerateSequence(n, 2)
+        y_random_points: []float = GenerateSequence(n, 3)
+
+        var x_points: []float = for (i := 0..n) do 0.0
+        var y_points: []float = for (i := 0..n) do 0.0
+
+        var generated_points: []vector3 = for (i := 0..n) do vector3{X := 0.0, Y := 0.0, Z := 0.0}
+
+        for (i := 0..n):
+            if (x_position := set x_points[i] = position.X + x_random_points[i] * area.X) {
+                if (set generated_points[i].X = x_position) {}
+            }
+
+            if (y_position := set y_points[i] = position.Y + y_random_points[i] * area.Y) {
+                if (set generated_points[i].Y = y_position) {}
+            }
+
+            if (set generated_points[i].Z = position.Z) {}
+
+        if (all_axes?):
+            # generate random points for the coordinate plane using the next available prime
+            z_random_points: []float = GenerateSequence(n, 5)
+            var z_points: []float = for (i := 0..n) do 0.0
+
+            for (i := 0..n):
+                if (z_position := set z_points[i] = position.Z + z_random_points[i] * area.Z) {
+                    if (set generated_points[i].Z = z_position) {}
+                }
+
+        generated_points
