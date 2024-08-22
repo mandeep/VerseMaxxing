@@ -5,7 +5,6 @@ using { /UnrealEngine.com/Temporary/Diagnostics }
 using { /UnrealEngine.com/Temporary/SpatialMath }
 
 
- 
 # This device can be used to randomly generate points for the
 # placement of objects within the scene.
 #
@@ -13,14 +12,14 @@ using { /UnrealEngine.com/Temporary/SpatialMath }
 # Halton, John H. "Algorithm 247: Radical-inverse quasi-random point sequence." Communications of the ACM 7.12 (1964): 701-702.
 # Owen, Art B. "A randomized Halton algorithm in R." arXiv preprint arXiv:1706.02808 (2017).
 # Halton sequence: https://en.wikipedia.org/wiki/Halton_sequence
-#
 HaltonSequenceDevice := class(creative_device):
 
-    # Generate n numbers of random points in base b
+    
+  
+    # Generate n numbers of random points
     #
     # Example: GenerateSequence(10, 2) generates the following 10
     # pseudo-random points: [0.5, 0.25, 0.75, 0.125, 0.625, 0.375, 0.875, 0.0625, 0.5625, 0.3125]
-    #
     GenerateSequence(n: int, base: int):[]float=
         var factor: int = 1
         var result: int  = 0
