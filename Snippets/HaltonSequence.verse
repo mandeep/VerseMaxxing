@@ -12,43 +12,41 @@ using { /UnrealEngine.com/Temporary/SpatialMath }
 # Halton, John H. "Algorithm 247: Radical-inverse quasi-random point sequence." Communications of the ACM 7.12 (1964): 701-702.
 # Owen, Art B. "A randomized Halton algorithm in R." arXiv preprint arXiv:1706.02808 (2017).
 # Halton sequence: https://en.wikipedia.org/wiki/Halton_sequence
-HaltonSequenceDevice := class(creative_device):
+HaltonSequencer<public> := module:
 
-    
-  
     # Generate n numbers of random points
     #
     # Example: GenerateSequence(10, 2) generates the following 10
     # pseudo-random points: [0.5, 0.25, 0.75, 0.125, 0.625, 0.375, 0.875, 0.0625, 0.5625, 0.3125]
-    GenerateSequence(n: int, base: int):[]float=
-        var factor: int = 1
-        var result: int  = 0
+    GenerateSequence<public>(N: int, Base: int):[]float=
+        var Factor: int = 1
+        var Result: int  = 0
         
-        var halton_sequence: []float = for (i := 0..n) do 0.0
+        var HaltonSequence: []float = for (I := 0..N) do 0.0
 
-        for (i := 0..n):
-            difference: int = factor - result
+        for (I := 0..N):
+            Difference: int = Factor - Result
 
-            if (difference = 1):
-                set result = 1
-                set factor *= base
+            if (Difference = 1):
+                set Result = 1
+                set Factor *= Base
             
             else:
-                var index: int = 0
-                if (set index = Floor(factor / base)):
+                var Index: int = 0
+                if (set Index = Floor(Factor / Base)):
                     loop:
-                        if (difference > index):
+                        if (Difference > Index):
                             break
 
-                        if (set index = Floor(index / base)) {}
+                        if (set Index = Floor(Index / Base)) {}
 
-                    set result = (base + 1) * index - difference
+                    set Result = (Base + 1) * Index - Difference
                     
-            sample: float = (result * 1.0) / (factor * 1.0)
+            Sample: float = (Result * 1.0) / (Factor * 1.0)
             
-            if (set halton_sequence[i] = sample) {}
+            if (set HaltonSequence[I] = Sample) {}
         
-        halton_sequence
+        HaltonSequence
 
     # Use the Halton Sequence generator to generate random points within a certain area at position
     #
@@ -62,35 +60,35 @@ HaltonSequenceDevice := class(creative_device):
     # Here, points is an array of vector3, however the points were generated in 2D. Thus, the Z position will be 300.0
     # The output of the points array will be [vector3(101.5, 51.0, 300.0), vector3(100.75, 52.0, 300.0), vector3(102.25, 50.33, 300.00)]
     #
-    GeneratePoints(n: int, area: vector3, position: vector3, ?all_axes: logic = false):[]vector3=
+    GeneratePoints<public>(N: int, Area: vector3, Position: vector3, ?AllAxes: logic = false):[]vector3=
         # generate random points for the xy plane using the first 2 primes as bases
-        x_random_points: []float = GenerateSequence(n, 2)
-        y_random_points: []float = GenerateSequence(n, 3)
+        X_RandomPoints: []float = GenerateSequence(N, 2)
+        Y_RandomPoints: []float = GenerateSequence(N, 3)
 
-        var x_points: []float = for (i := 0..n) do 0.0
-        var y_points: []float = for (i := 0..n) do 0.0
+        var X_Points: []float = for (i := 0..N) do 0.0
+        var Y_Points: []float = for (i := 0..N) do 0.0
 
-        var generated_points: []vector3 = for (i := 0..n) do vector3{X := 0.0, Y := 0.0, Z := 0.0}
+        var GeneratedPoints: []vector3 = for (i := 0..N) do vector3{X := 0.0, Y := 0.0, Z := 0.0}
 
-        for (i := 0..n):
-            if (x_position := set x_points[i] = position.X + x_random_points[i] * area.X) {
-                if (set generated_points[i].X = x_position) {}
+        for (i := 0..N):
+            if (X_Position := set X_Points[i] = Position.X + X_RandomPoints[i] * Area.X) {
+                if (set GeneratedPoints[i].X = X_Position) {}
             }
 
-            if (y_position := set y_points[i] = position.Y + y_random_points[i] * area.Y) {
-                if (set generated_points[i].Y = y_position) {}
+            if (Y_Position := set Y_Points[i] = Position.Y + Y_RandomPoints[i] * Area.Y) {
+                if (set GeneratedPoints[i].Y = Y_Position) {}
             }
 
-            if (set generated_points[i].Z = position.Z) {}
+            if (set GeneratedPoints[i].Z = Position.Z) {}
 
-        if (all_axes?):
+        if (AllAxes?):
             # generate random points for the coordinate plane using the next available prime
-            z_random_points: []float = GenerateSequence(n, 5)
-            var z_points: []float = for (i := 0..n) do 0.0
+            Z_RandomPoints: []float = GenerateSequence(N, 5)
+            var Z_Points: []float = for (i := 0..N) do 0.0
 
-            for (i := 0..n):
-                if (z_position := set z_points[i] = position.Z + z_random_points[i] * area.Z) {
-                    if (set generated_points[i].Z = z_position) {}
+            for (i := 0..N):
+                if (Z_Position := set Z_Points[i] = Position.Z + Z_RandomPoints[i] * Area.Z) {
+                    if (set GeneratedPoints[i].Z = Z_Position) {}
                 }
 
-        generated_points
+        GeneratedPoints
