@@ -11,7 +11,7 @@ using { /UnrealEngine.com/Temporary }
 
 Utils<public> := module:
     # Check if all elements in an array are equal
-    All_Elements_Equal<public>(Array: []int)<transacts>:logic=
+    AllElementsEqual<public>(Array: []int)<transacts>:logic=
         if (Array.Length <= 1):
             return true
 
