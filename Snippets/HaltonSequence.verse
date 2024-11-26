@@ -71,13 +71,11 @@ HaltonSequencer<public> := module:
         var GeneratedPoints: []vector3 = for (i := 0..N) do vector3{X := 0.0, Y := 0.0, Z := 0.0}
 
         for (i := 0..N):
-            if (X_Position := set X_Points[i] = Position.X + X_RandomPoints[i] * Area.X) {
+            if (X_Position := set X_Points[i] = Position.X + X_RandomPoints[i] * Area.X):
                 if (set GeneratedPoints[i].X = X_Position) {}
-            }
 
-            if (Y_Position := set Y_Points[i] = Position.Y + Y_RandomPoints[i] * Area.Y) {
+            if (Y_Position := set Y_Points[i] = Position.Y + Y_RandomPoints[i] * Area.Y):
                 if (set GeneratedPoints[i].Y = Y_Position) {}
-            }
 
             if (set GeneratedPoints[i].Z = Position.Z) {}
 
@@ -87,8 +85,7 @@ HaltonSequencer<public> := module:
             var Z_Points: []float = for (i := 0..N) do 0.0
 
             for (i := 0..N):
-                if (Z_Position := set Z_Points[i] = Position.Z + Z_RandomPoints[i] * Area.Z) {
+                if (Z_Position := set Z_Points[i] = Position.Z + Z_RandomPoints[i] * Area.Z):
                     if (set GeneratedPoints[i].Z = Z_Position) {}
-                }
 
         GeneratedPoints
